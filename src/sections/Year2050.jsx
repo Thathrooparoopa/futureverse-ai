@@ -3,13 +3,16 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { musicInfo } from "../data/musicData";
+import LyriaBadge from "../components/LyriaBadge";
 
 gsap.registerPlugin(ScrollTrigger);
 
 function Year2050({
   setTrack,
   setCurrentMusic,
-}) {
+  isPlaying,
+  setIsPlaying,
+}){
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const posterRef = useRef(null);
@@ -168,79 +171,38 @@ onEnterBack: () => {
           Era Two
         </p>
 
-        <h1
-          ref={titleRef}
-          className="year-number"
-          style={{
-            fontSize: "clamp(7rem,14vw,12rem)",
-            margin: "20px 0",
-            textShadow: "0 0 40px rgba(255,255,255,.15)",
-          }}
-        >
-          2050
-        </h1>
-
         <div
   style={{
     display: "flex",
-    justifyContent: "flex-end",
-    marginBottom: "35px",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "30px",
+    flexWrap: "wrap",
+    marginBottom: "25px",
   }}
 >
-  <div
+  <h1
+    ref={titleRef}
+    className="year-number"
     style={{
-      padding: "14px 24px",
-      borderRadius: "22px",
-
-      background: "rgba(0,140,255,.12)",
-
-      backdropFilter: "blur(20px)",
-
-      border: "1px solid rgba(0,140,255,.35)",
-
-      boxShadow:
-        "0 0 30px rgba(0,140,255,.15)",
-
-      textAlign: "left",
-
-      minWidth: "260px",
+      fontSize: "clamp(7rem,14vw,12rem)",
+      margin: 0,
     }}
   >
-    <div
-      style={{
-        fontSize: ".75rem",
-        color: "#cfe9ff",
-        letterSpacing: "2px",
-        textTransform: "uppercase",
-      }}
-    >
-      ♫ LYRIA SOUNDTRACK
-    </div>
+    2050
+  </h1>
 
-    <div
-      style={{
-        marginTop: "6px",
-        fontSize: "1.15rem",
-        fontWeight: "600",
-        color: "#fff",
-      }}
-    >
-      Innovation
-    </div>
-
-    <div
-      style={{
-        marginTop: "4px",
-        fontSize: ".8rem",
-        color: "#9ecfff",
-      }}
-    >
-      Generated using Google Lyria
-    </div>
-  </div>
+  <LyriaBadge
+    title="Innovation"
+    color="#6487c2"
+    isPlaying={isPlaying}
+    setIsPlaying={setIsPlaying}
+  />
 </div>
 
-<h2
+
+
+        <h2
   style={{
     fontSize: "clamp(2rem,4vw,3.5rem)",
     marginBottom: "25px",

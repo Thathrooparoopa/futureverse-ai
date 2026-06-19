@@ -13,49 +13,73 @@ import ScrollProgress from "./components/ScrollProgress";
 import MusicPlayer from "./components/MusicPlayer";
 import NowPlaying from "./components/NowPlaying";
 import AudioOrb from "./components/AudioOrb";
+import Navbar from "./components/Navbar";
+
 
 function App() {
   const [track, setTrack] = useState("/music/discovery.mp3");
   const [currentMusic, setCurrentMusic] = useState(null);
-
+  const [isPlaying, setIsPlaying] = useState(false);
   return (
-    <>
-      <MusicPlayer track={track} />
+<>
+  <Navbar />
 
-      <NowPlaying music={currentMusic} />
+  <MusicPlayer
+    track={track}
+    isPlaying={isPlaying}
+  />
 
-      <AudioOrb music={currentMusic} />
+  <NowPlaying music={currentMusic} />
 
-      <ScrollProgress />
+  <AudioOrb
+    music={currentMusic}
+    isPlaying={isPlaying}
+    setIsPlaying={setIsPlaying}
+  />
 
-      <Hero />
+  <ScrollProgress />
 
-      <Year2035
-        setTrack={setTrack}
-        setCurrentMusic={setCurrentMusic}
-      />
+  <Hero />
 
-      <Year2050
-        setTrack={setTrack}
-        setCurrentMusic={setCurrentMusic}
-      />
+  <Year2035
+    setTrack={setTrack}
+    setCurrentMusic={setCurrentMusic}
+    isPlaying={isPlaying}
+    setIsPlaying={setIsPlaying}
+  />
 
-      <Year2075
-        setTrack={setTrack}
-        setCurrentMusic={setCurrentMusic}
-      />
+  <Year2050
+    setTrack={setTrack}
+    setCurrentMusic={setCurrentMusic}
+    isPlaying={isPlaying}
+    setIsPlaying={setIsPlaying}
+  />
 
-      <Year2100
-        setTrack={setTrack}
-        setCurrentMusic={setCurrentMusic}
-      />
+  <Year2075
+    setTrack={setTrack}
+    setCurrentMusic={setCurrentMusic}
+    isPlaying={isPlaying}
+    setIsPlaying={setIsPlaying}
+  />
 
-      <Finale2126 />
+  <Year2100
+    setTrack={setTrack}
+    setCurrentMusic={setCurrentMusic}
+    isPlaying={isPlaying}
+    setIsPlaying={setIsPlaying}
+  />
+<Finale2126
+  setTrack={setTrack}
+  setCurrentMusic={setCurrentMusic}
+  isPlaying={isPlaying}
+  setIsPlaying={setIsPlaying}
+/>
+  
 
-      <FutureChoice />
+  <FutureChoice />
 
-      <TimelineGenerator />
-    </>
+  <TimelineGenerator />
+</>
   );
 }
 

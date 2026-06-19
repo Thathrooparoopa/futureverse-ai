@@ -3,10 +3,17 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { musicInfo } from "../data/musicData";
+import LyriaBadge from "../components/LyriaBadge";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
- function Year2035({ setTrack, setCurrentMusic }) {
+  function Year2035({
+  setTrack,
+  setCurrentMusic,
+  isPlaying,
+  setIsPlaying,
+}){
   const sectionRef = useRef(null);
   const posterRef = useRef(null);
   const textRef = useRef(null);
@@ -171,53 +178,7 @@ onEnterBack: () => {
           >
             2035
           </h1>
-
-          <div
-  style={{
-    display: "inline-block",
-    padding: "12px 20px",
-    borderRadius: "20px",
-
-    background:
-      "rgba(255,255,255,.05)",
-
-    backdropFilter: "blur(20px)",
-
-    border:
-      "1px solid rgba(255,255,255,.08)",
-
-    marginBottom: "25px",
-  }}
->
-  <div
-    style={{
-      fontSize: ".8rem",
-      color: "#bdbdbd",
-      letterSpacing: "2px",
-    }}
-  >
-    ♫ LYRIA ORIGINAL SOUNDTRACK
-  </div>
-
-  <div
-    style={{
-      marginTop: "4px",
-      fontWeight: "600",
-    }}
-  >
-    Hope
-  </div>
-
-  <div
-    style={{
-      fontSize: ".8rem",
-      color: "#888",
-    }}
-  >
-    Generated using Google Lyria
-  </div>
-</div>
-
+           
           <h2
             style={{
               fontSize: "clamp(2rem,4vw,3.2rem)",
@@ -228,6 +189,12 @@ onEnterBack: () => {
           >
             AI Becomes Humanity's Co-Pilot
           </h2>
+          <LyriaBadge
+ title="Hope"
+ color="#ffffff"
+ isPlaying={isPlaying}
+ setIsPlaying={setIsPlaying}
+/>
 
           <p
             style={{

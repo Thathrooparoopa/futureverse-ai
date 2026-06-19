@@ -3,23 +3,28 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { musicInfo } from "../data/musicData";
+import LyriaBadge from "../components/LyriaBadge";
+
 
 gsap.registerPlugin(ScrollTrigger);
  
  
 
 
- function Year2100({
+  function Year2100({
   setTrack,
   setCurrentMusic,
+  isPlaying,
+  setIsPlaying,
 }) {
 
-  const sectionRef = useRef(null);
+const sectionRef = useRef(null);
 const posterRef = useRef(null);
 const textRef = useRef(null);
+
 useGSAP(() => {
   gsap.from(posterRef.current, {
-    x: -150,
+    x: -200,
     opacity: 0,
     duration: 1.5,
     ease: "power3.out",
@@ -70,6 +75,7 @@ useGSAP(() => {
 }, []);
   return (
     <section
+      id="year2100"
       ref={sectionRef}
       style={{
         minHeight: "100vh",
@@ -150,89 +156,40 @@ useGSAP(() => {
           >
             Era Four
           </p>
-<div
+
+  <div
   style={{
     display: "flex",
-    alignItems: "flex-end",
+    alignItems: "center",
     gap: "20px",
-    marginBottom: "25px",
     flexWrap: "wrap",
+    marginBottom: "20px",
   }}
 >
   <h1
     className="year-number"
     style={{
       fontSize: "clamp(5rem,10vw,8rem)",
-      lineHeight: "1",
       margin: 0,
     }}
   >
     2100
   </h1>
 
-  <div
-    style={{
-      padding: "12px 20px",
-
-      borderRadius: "18px",
-
-      background:
-        "rgba(255,200,80,.12)",
-
-      backdropFilter: "blur(20px)",
-
-      border:
-        "1px solid rgba(255,200,80,.35)",
-
-      boxShadow:
-        "0 0 35px rgba(255,200,80,.2)",
-
-      textAlign: "left",
-
-      marginBottom: "12px",
-    }}
-  >
-    <div
-      style={{
-        fontSize: ".72rem",
-        letterSpacing: "2px",
-        color: "#ffe6a6",
-        textTransform: "uppercase",
-      }}
-    >
-      ♫ LYRIA SOUNDTRACK
-    </div>
-
-    <div
-      style={{
-        marginTop: "4px",
-        fontWeight: "600",
-        color: "#fff",
-      }}
-    >
-      Destiny
-    </div>
-
-    <div
-      style={{
-        fontSize: ".8rem",
-        color: "#ffd98f",
-      }}
-    >
-      Generated using Google Lyria
-    </div>
-  </div>
+  <LyriaBadge
+    title="Destiny"
+    color="#fbbf24"
+    isPlaying={isPlaying}
+    setIsPlaying={setIsPlaying}
+  />
 </div>
-          
-
-          <h2
-            style={{
-              fontSize: "clamp(2rem,4vw,3.5rem)",
-              marginBottom: "30px",
-            }}
-          >
-            The Interplanetary Era
-          </h2>
+ <h2
+    style={{
+       fontSize: "clamp(2rem,4vw,3.5rem)",
+       marginBottom: "30px",
+         }}>
+       The Interplanetary Era
+</h2>
 
           <p
             style={{

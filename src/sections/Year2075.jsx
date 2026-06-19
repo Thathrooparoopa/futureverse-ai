@@ -2,10 +2,17 @@ import { useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import LyriaBadge from "../components/LyriaBadge";
+import { musicInfo } from "../data/musicData";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function Year2075({ setTrack }) {
+function Year2075({
+  setTrack,
+  setCurrentMusic,
+  isPlaying,
+  setIsPlaying,
+}) {
   const sectionRef = useRef(null);
   const posterRef = useRef(null);
   const textRef = useRef(null);
@@ -47,25 +54,35 @@ function Year2075({ setTrack }) {
 
   onEnter: () => {
     setTrack("/music/exploration.mp3");
+    setCurrentMusic(
+      musicInfo.exploration
+    );
   },
 
   onEnterBack: () => {
     setTrack("/music/exploration.mp3");
+    setCurrentMusic(
+      musicInfo.exploration
+    );
   },
 });
 
   }, []);
 
   return (
+    
+
     <section
-      ref={sectionRef}
-      style={{
-        minHeight: "100vh",
-        position: "relative",
-        overflow: "hidden",
-        color: "white",
-      }}
-    >
+  id="year2075"
+  ref={sectionRef}
+  style={{
+    minHeight: "100vh",
+    position: "relative",
+    overflow: "hidden",
+    color: "white",
+  }}
+>
+
       {/* Background Video */}
       <video
         autoPlay
@@ -166,105 +183,52 @@ function Year2075({ setTrack }) {
           />
 
 
-<div
+
+
+<h1
+  className="year-number"
   style={{
-    display: "flex",
-    alignItems: "flex-end",
-    gap: "20px",
-    marginBottom: "25px",
-    flexWrap: "wrap",
+    fontSize: "clamp(5rem,10vw,8rem)",
+    marginBottom: "10px",
   }}
 >
-  <h1
-    className="year-number"
-    style={{
-      fontSize: "clamp(5rem,10vw,8rem)",
-      margin: 0,
-    }}
-  >
-    2075
-  </h1>
+  2075
+</h1>
 
-  <div
-    style={{
-      padding: "12px 20px",
+<h2
+  style={{
+    fontSize: "clamp(2rem,4vw,3.2rem)",
+    marginBottom: "20px",
+    color: "#f2f2f2",
+    lineHeight: "1.2",
+  }}
+>
+  Human + AI Evolution
+</h2>
 
-      borderRadius: "18px",
+<LyriaBadge
+  title="Exploration"
+  color="#8b5cf6"
+  isPlaying={isPlaying}
+  setIsPlaying={setIsPlaying}
+/>
 
-      background:
-        "rgba(130,90,255,.12)",
+<p
+  style={{
+    marginTop: "25px",
+    color: "#b5b5b5",
+    lineHeight: "1.9",
+    fontSize: "1.05rem",
+  }}
+>
+  Artificial intelligence is no longer a tool.
+  Neural interfaces connect directly with the
+  human mind, expanding learning, memory,
+  communication, and creativity beyond natural
+  limits.
+</p>
 
-      backdropFilter: "blur(20px)",
-
-      border:
-        "1px solid rgba(130,90,255,.35)",
-
-      boxShadow:
-        "0 0 30px rgba(130,90,255,.18)",
-
-      textAlign: "left",
-
-      marginBottom: "15px",
-    }}
-  >
-    <div
-      style={{
-        fontSize: ".72rem",
-        letterSpacing: "2px",
-        color: "#d8c7ff",
-        textTransform: "uppercase",
-      }}
-    >
-      ♫ LYRIA SOUNDTRACK
-    </div>
-
-    <div
-      style={{
-        marginTop: "4px",
-        fontWeight: "600",
-        color: "#fff",
-      }}
-    >
-      Exploration
-    </div>
-
-    <div
-      style={{
-        fontSize: ".8rem",
-        color: "#bda8ff",
-      }}
-    >
-      Generated using Google Lyria
-    </div>
-  </div>
-</div>
-          <h2
-            style={{
-              fontSize: "clamp(2rem,4vw,3.2rem)",
-              marginBottom: "25px",
-              color: "#f2f2f2",
-              lineHeight: "1.2",
-            }}
-          >
-            Human + AI Evolution
-          </h2>
-
-          <p
-            style={{
-              color: "#b5b5b5",
-              lineHeight: "1.9",
-              fontSize: "1.05rem",
-            }}
-          >
-            Artificial intelligence is no longer a tool.
-            Neural interfaces connect directly with the
-            human mind, expanding learning, memory,
-            communication, and creativity beyond natural
-            limits.
-          </p>
-
-          <p
-            style={{
+  <p  style={{
               marginTop: "25px",
               color: "#9f9f9f",
               fontStyle: "italic",
