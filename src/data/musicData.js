@@ -1,31 +1,31 @@
-export const musicInfo = {
-  discovery: {
-    title: "Discovery",
-    era: "Introduction",
-    mood: "Curiosity • Wonder • Possibility",
-  },
-
+export const musicData = {
   hope: {
     title: "Hope",
-    era: "2035",
-    mood: "Optimism • Human Potential",
+    year: "2035",
+    file: "/music/hope.mp3",
   },
 
   innovation: {
     title: "Innovation",
-    era: "2050",
-    mood: "Smart Cities • Progress",
+    year: "2050",
+    file: "/music/innovation.mp3",
   },
 
   exploration: {
     title: "Exploration",
-    era: "2075",
-    mood: "Human + AI Evolution",
+    year: "2075",
+    file: "/music/exploration.mp3",
   },
 
   destiny: {
     title: "Destiny",
-    era: "2100",
-    mood: "Planetary Intelligence",
+    year: "2100",
+    file: "/music/destiny.mp3",
+  },
+
+  discovery: {
+    title: "Discovery",
+    year: "2126",
+    file: "/music/discovery.mp3",
   },
 };

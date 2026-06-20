@@ -1,241 +1,290 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { musicInfo } from "../data/musicData";
-import LyriaBadge from "../components/LyriaBadge";
-
 
 gsap.registerPlugin(ScrollTrigger);
 
-  function Year2035({
-  setTrack,
-  setCurrentMusic,
-  isPlaying,
-  setIsPlaying,
-}){
+export default function Year2035() {
   const sectionRef = useRef(null);
   const posterRef = useRef(null);
   const textRef = useRef(null);
+  const audioRef = useRef(null);
+  const titleRef = useRef(null);
+  const subtitleRef = useRef(null);
+  const descRef = useRef(null);
+  const buttonRef = useRef(null);
+
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const toggleAudio = () => {
+    if (!audioRef.current) return;
+
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+
+    setIsPlaying(!isPlaying);
+  };
 
   useGSAP(() => {
-  gsap.from(sectionRef.current, {
-    opacity: 0,
-    y: 80,
-    duration: 1.2,
-    ease: "power3.out",
-    scrollTrigger: {
-      trigger: sectionRef.current,
-      start: "top 80%",
-    },
-  });
+    gsap.from(posterRef.current, {
+      y: 100,
+      opacity: 0,
+      duration: 1.4,
+      ease: "power3.out",
+    });
 
-  gsap.from(posterRef.current, {
-    x: -200,
-    opacity: 0,
-    duration: 1.5,
-    ease: "power3.out",
-    scrollTrigger: {
-      trigger: posterRef.current,
-      start: "top 80%",
-    },
-  });
+    gsap.from(textRef.current, {
+      y: 80,
+      opacity: 0,
+      duration: 1.4,
+      ease: "power3.out",
+    });
 
-  gsap.from(textRef.current, {
-    x: 200,
-    opacity: 0,
-    duration: 1.5,
-    ease: "power3.out",
-    scrollTrigger: {
-      trigger: textRef.current,
-      start: "top 80%",
-    },
-  });
+    gsap.from(titleRef.current, {
+      y: 40,
+      opacity: 0,
+      duration: 1.2,
+      ease: "power3.out",
+    });
 
-  ScrollTrigger.create({
-    trigger: sectionRef.current,
-    start: "top center",
-onEnter: () => {
-  setTrack("/music/hope.mp3");
+    gsap.from(subtitleRef.current, {
+      y: 20,
+      opacity: 0,
+      duration: 1,
+      ease: "power3.out",
+      delay: 0.2,
+    });
 
-  setCurrentMusic(
-    musicInfo.hope
-  );
-},
+    gsap.from(descRef.current, {
+      y: 30,
+      opacity: 0,
+      duration: 1.2,
+      ease: "power3.out",
+      delay: 0.3,
+    });
 
-onEnterBack: () => {
-  setTrack("/music/hope.mp3");
+    gsap.from(buttonRef.current, {
+      y: 20,
+      opacity: 0,
+      duration: 1,
+      ease: "power3.out",
+      delay: 0.4,
+    });
 
-  setCurrentMusic(
-    musicInfo.hope
-  );
-},
-   
-  });
-
-}, []);
+    gsap.to(posterRef.current, {
+      y: -15,
+      duration: 4,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    });
+  }, []);
 
   return (
     <section
-      id="year2035"
       ref={sectionRef}
-      style={{
-        minHeight: "100vh",
-        position: "relative",
-        overflow: "hidden",
-        color: "white",
-      }}
+      className="relative min-h-screen overflow-hidden bg-black text-white flex items-center"
     >
       {/* Background Video */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          opacity: 0.35,
-        }}
-      >
-        <source src="/videos/2035.mp4" type="video/mp4" />
-      </video>
-
-      {/* Overlay */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background:
-  "linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.75))",
-        }}
-      />
-
-      {/* Content */}
-      <div
-        style={{
-          position: "relative",
-          zIndex: 10,
-          minHeight: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "80px",
-          flexWrap: "wrap",
-          padding: "100px 40px",
-        }}
-      >
-        {/* Poster */}
-        <img
-          ref={posterRef}
-          src="/posters/future-workplace.webp"
-          alt="Future Workplace"
-          style={{
-            width: "100%",
-            maxWidth: "650px",
-            borderRadius: "24px",
-            boxShadow: "0 30px 100px rgba(255,255,255,.08)",
-          }}
-        />
-
-        {/* Text */}
-        <div
-          ref={textRef}
-          style={{
-            maxWidth: "600px",
-          }}
+      <div className="absolute inset-0 overflow-hidden">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
         >
-          <p
-            style={{
-              color: "#8f8f8f",
-              letterSpacing: "4px",
-              textTransform: "uppercase",
-              marginBottom: "20px",
-            }}
-          >
-            Era One
+          <source src="/videos/2035.mp4" type="video/mp4" />
+        </video>
+
+        <div className="absolute inset-0 bg-black/75" />
+      </div>
+
+      {/* Glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(96,165,250,0.08),transparent_70%)]" />
+
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-[#60A5FA]/10 blur-[220px]" />
+
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-10 lg:px-16 py-24">
+        
+        {/* Timeline */}
+        <div className="absolute top-12 left-1/2 -translate-x-1/2 flex flex-col items-center">
+          <p className="uppercase tracking-[0.5em] text-white/50 text-sm">
+            ERA ONE
           </p>
 
-          <div
-            style={{
-              width: "2px",
-              height: "120px",
-              background:
-                "linear-gradient(to bottom, transparent, #888, transparent)",
-              marginBottom: "30px",
-            }}
-          />
+          <div className="w-px h-[180px] bg-white/20 mt-4"></div>
+        </div>
 
-          <h1
-            className="year-number"
-            style={{
-              fontSize: "clamp(5rem,10vw,8rem)",
-              marginBottom: "10px",
-            }}
+        {/* Main Layout */}
+        <div className="grid lg:grid-cols-[1fr_1fr] gap-10 items-center">
+
+          {/* Poster */}
+          <div
+            ref={posterRef}
+            className="flex justify-center lg:justify-start"
           >
-            2035
-          </h1>
-           
-          <h2
-            style={{
-              fontSize: "clamp(2rem,4vw,3.2rem)",
-              marginBottom: "25px",
-              color: "#d9d9d9",
-              lineHeight: "1.2",
-            }}
+            <img
+              src="/posters/2035.png"
+              alt="2035"
+              className="
+                w-full
+                max-w-[500px]
+                rounded-[28px]
+                border
+                border-white/10
+                shadow-[0_0_80px_rgba(96,165,250,0.18)]
+              "
+            />
+          </div>
+
+          {/* Content */}
+          <div
+            ref={textRef}
+            className="max-w-[700px]"
           >
-            AI Becomes Humanity's Co-Pilot
-          </h2>
-          <LyriaBadge
- title="Hope"
- color="#ffffff"
- isPlaying={isPlaying}
- setIsPlaying={setIsPlaying}
+            {/* Subtitle */}
+            <p
+              ref={subtitleRef}
+              className="text-sm md:text-base lg:text-lg text-gray-400 uppercase tracking-[0.3em] mb-4"
+            >
+              YEAR 2035
+            </p>
+
+            {/* Title */}
+            <h1
+              ref={titleRef}
+              className="
+                text-7xl
+                md:text-8xl
+                lg:text-8xl
+                font-bold
+                tracking-tight
+                leading-none
+              "
+            >
+              AI Becomes
+              <br />
+              Humanity's Co-Pilot
+            </h1>
+
+            {/* Description */}
+            <p
+              ref={descRef}
+              className="
+                mt-8
+                max-w-3xl
+                text-lg
+                lg:text-xl
+                leading-relaxed
+                text-gray-400
+              "
+            >
+              The first challenge humanity solved was learning overload.
+              <br />
+              <br />
+              Artificial intelligence evolves into a trusted academic
+              companion. Students no longer struggle alone. Personalized
+              AI mentors guide learning, explain difficult concepts,
+              and accelerate creativity.
+              <br />
+              <br />
+              <span className="italic text-[#60A5FA]">
+                "Every student gained access to a mentor that never slept."
+              </span>
+            </p>
+<audio
+  ref={audioRef}
+  src="/music/hope.mp3"
 />
 
-          <p
-            style={{
-              color: "#b5b5b5",
-              lineHeight: "1.9",
-              fontSize: "1.05rem",
-            }}
-          >
-            Artificial Intelligence becomes an everyday partner.
-            Doctors diagnose faster, teachers personalize learning,
-            engineers design smarter systems, and creative professionals
-            collaborate with AI to unlock new possibilities.
-          </p>
 
-          <p
-            style={{
-              marginTop: "25px",
-              color: "#8f8f8f",
-              fontStyle: "italic",
-            }}
-          >
-            "The age of human potential accelerated by AI."
-          </p>
+            {/* Soundtrack Card */}
+            <div
+              className="
+                mt-10
+                rounded-3xl
+                border
+                border-white/10
+                bg-white/5
+                backdrop-blur-xl
+                p-6
+                max-w-md
+              "
+            >
+              <p className="text-xs uppercase tracking-[0.25em] text-[#60A5FA]">
+                🎵 Lyria Track: Hope
+              </p>
 
-          {/* Feature Cards */}
-          <div
-            style={{
-              display: "flex",
-              gap: "20px",
-              marginTop: "40px",
-              flexWrap: "wrap",
-            }}
-          >
-            <div className="stat-card">AI Doctors</div>
-            <div className="stat-card">AI Teachers</div>
-            <div className="stat-card">AI Engineers</div>
+              <h4 className="mt-3 text-xl font-semibold">
+                Learning Companion
+              </h4>
+
+              <div className="mt-6 flex items-center justify-between">
+                <button
+                  onClick={toggleAudio}
+                  className="
+                    px-5
+                    py-2
+                    rounded-full
+                    border
+                    border-white/10
+                    hover:border-[#60A5FA]
+                    transition
+                  "
+                >
+                  {isPlaying ? "⏸ Pause" : "▶ Play"}
+                </button>
+
+                <div className="flex gap-1">
+                  {isPlaying && (
+                    <>
+                      <span className="w-[3px] h-5 bg-[#60A5FA] animate-pulse rounded-full"></span>
+                      <span className="w-[3px] h-7 bg-[#60A5FA] animate-pulse rounded-full"></span>
+                      <span className="w-[3px] h-4 bg-[#60A5FA] animate-pulse rounded-full"></span>
+                      <span className="w-[3px] h-6 bg-[#60A5FA] animate-pulse rounded-full"></span>
+                    </>
+                  )}
+                </div>
+
+                <span className="text-white/50">
+                  Hope
+                </span>
+              </div>
+            </div>
+
+            {/* Button */}
+            <div ref={buttonRef}>
+              <button
+                className="
+                  mt-10
+                  px-8
+                  py-4
+                  rounded-full
+                  border
+                  border-blue-400/30
+                  bg-white/5
+                  backdrop-blur-md
+                  text-white
+                  font-semibold
+                  tracking-wider
+                  transition-all
+                  duration-300
+                  hover:bg-blue-500/20
+                  hover:border-blue-400
+                "
+              >
+                AI Learning Guides
+              </button>
+            </div>
           </div>
+
         </div>
       </div>
     </section>
   );
 }
-
-export default Year2035;

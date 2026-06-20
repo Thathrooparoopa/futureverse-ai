@@ -1,268 +1,264 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import LyriaBadge from "../components/LyriaBadge";
-import { musicInfo } from "../data/musicData";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function Year2075({
-  setTrack,
-  setCurrentMusic,
-  isPlaying,
-  setIsPlaying,
-}) {
+export default function Year2075() {
   const sectionRef = useRef(null);
-  const posterRef = useRef(null);
-  const textRef = useRef(null);
+  const audioRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useGSAP(() => {
-    gsap.from(posterRef.current, {
-      x: -200,
+    gsap.from(".y2075-reveal", {
       opacity: 0,
-      duration: 1.5,
+      y: 60,
+      duration: 1.2,
+      stagger: 0.15,
       ease: "power3.out",
       scrollTrigger: {
-        trigger: posterRef.current,
-        start: "top 80%",
+        trigger: sectionRef.current,
+        start: "top 70%",
       },
     });
-
-    gsap.from(textRef.current, {
-      x: 200,
-      opacity: 0,
-      duration: 1.5,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: textRef.current,
-        start: "top 80%",
-      },
-    });
-
-    gsap.to(posterRef.current, {
-      y: -20,
-      duration: 3,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-    });
-
-    ScrollTrigger.create({
-  trigger: sectionRef.current,
-  start: "top center",
-
-  onEnter: () => {
-    setTrack("/music/exploration.mp3");
-    setCurrentMusic(
-      musicInfo.exploration
-    );
-  },
-
-  onEnterBack: () => {
-    setTrack("/music/exploration.mp3");
-    setCurrentMusic(
-      musicInfo.exploration
-    );
-  },
-});
-
   }, []);
 
+  const toggleAudio = async () => {
+    if (!audioRef.current) return;
+
+    try {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        await audioRef.current.play();
+      }
+
+      setIsPlaying(!isPlaying);
+    } catch (err) {
+      console.error("Audio playback failed:", err);
+    }
+  };
+
   return (
-    
-
     <section
-  id="year2075"
-  ref={sectionRef}
-  style={{
-    minHeight: "100vh",
-    position: "relative",
-    overflow: "hidden",
-    color: "white",
-  }}
->
-
+      ref={sectionRef}
+      className="relative min-h-screen overflow-hidden bg-black text-white"
+    >
       {/* Background Video */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          opacity: 0.5,
-        }}
-      >
-        <source src="/videos/2075.mp4" type="video/mp4" />
-      </video>
+      <div className="absolute inset-0 overflow-hidden">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+        >
+          <source src="/videos/2075.mp4" type="video/mp4" />
+        </video>
 
-      {/* Dark Overlay */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "linear-gradient(to bottom, rgba(0,0,0,.75), rgba(0,0,0,.92))",
-        }}
-      />
+        <div className="absolute inset-0 bg-black/80" />
+      </div>
 
       {/* Purple Glow */}
       <div
-        style={{
-          position: "absolute",
-          width: "700px",
-          height: "700px",
-          borderRadius: "50%",
-          background: "rgba(130,90,255,.18)",
-          filter: "blur(180px)",
-          top: "20%",
-          left: "50%",
-          transform: "translateX(-50%)",
-        }}
+        className="
+        absolute
+        left-1/2
+        top-1/2
+        -translate-x-1/2
+        -translate-y-1/2
+        w-[1000px]
+        h-[1000px]
+        rounded-full
+        bg-purple-500/10
+        blur-[250px]
+        "
       />
+
+      {/* Audio */}
+      <audio
+        ref={audioRef}
+        onEnded={() => setIsPlaying(false)}
+      >
+        <source src="/music/exploration.mp3" type="audio/mpeg" />
+      </audio>
 
       {/* Content */}
       <div
-        style={{
-          position: "relative",
-          zIndex: 10,
-          minHeight: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "80px",
-          flexWrap: "wrap",
-          padding: "100px 40px",
-        }}
+        className="
+        relative
+        z-10
+        min-h-screen
+        flex
+        flex-col
+        px-6
+        pt-16
+        pb-32
+        "
       >
-        {/* Poster */}
-        <img
-          ref={posterRef}
-          src="/posters/human-ai.webp"
-          alt="Human AI Evolution"
-          style={{
-            width: "100%",
-            maxWidth: "550px",
-            borderRadius: "24px",
-            boxShadow:
-              "0 30px 120px rgba(130,90,255,.18)",
-          }}
-        />
+        <div className="flex items-start justify-center gap-12 max-w-7xl mx-auto">
 
-        {/* Text */}
-        <div
-          ref={textRef}
-          style={{
-            maxWidth: "600px",
-          }}
-        >
-          <p
-            style={{
-              color: "#9f9f9f",
-              letterSpacing: "4px",
-              textTransform: "uppercase",
-              marginBottom: "20px",
-            }}
-          >
-            Era Three
-          </p>
+          {/* LEFT */}
+          <div className="flex flex-col items-center flex-shrink-0">
 
-          <div
-            style={{
-              width: "2px",
-              height: "120px",
-              background:
-                "linear-gradient(to bottom, transparent, #9f7cff, transparent)",
-              marginBottom: "30px",
-            }}
-          />
+            <p className="y2075-reveal uppercase tracking-[0.45em] text-white/40 text-sm mb-3">
+              YEAR 2075
+            </p>
 
-
-
-
-<h1
-  className="year-number"
-  style={{
-    fontSize: "clamp(5rem,10vw,8rem)",
-    marginBottom: "10px",
-  }}
->
-  2075
-</h1>
-
-<h2
-  style={{
-    fontSize: "clamp(2rem,4vw,3.2rem)",
-    marginBottom: "20px",
-    color: "#f2f2f2",
-    lineHeight: "1.2",
-  }}
->
-  Human + AI Evolution
-</h2>
-
-<LyriaBadge
-  title="Exploration"
-  color="#8b5cf6"
-  isPlaying={isPlaying}
-  setIsPlaying={setIsPlaying}
-/>
-
-<p
-  style={{
-    marginTop: "25px",
-    color: "#b5b5b5",
-    lineHeight: "1.9",
-    fontSize: "1.05rem",
-  }}
->
-  Artificial intelligence is no longer a tool.
-  Neural interfaces connect directly with the
-  human mind, expanding learning, memory,
-  communication, and creativity beyond natural
-  limits.
-</p>
-
-  <p  style={{
-              marginTop: "25px",
-              color: "#9f9f9f",
-              fontStyle: "italic",
-            }}
-          >
-            "The boundary between human potential and
-            artificial intelligence disappears."
-          </p>
-
-          {/* Cards */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "18px",
-              marginTop: "40px",
-            }}
-          >
-            <div className="stat-card">
-              Enhanced Intelligence
+            <div className="relative w-px h-[220px] mb-8">
+              <div className="absolute inset-0 bg-white/20" />
+              <div className="absolute inset-0 bg-purple-500 blur-sm opacity-80" />
+              <div
+                className="
+                absolute top-0 left-1/2 -translate-x-1/2
+                w-3 h-3 rounded-full
+                bg-purple-500 shadow-[0_0_20px_#a855f7]
+                "
+              />
             </div>
 
-            <div className="stat-card">
-              Neural Interfaces
+            <div className="y2075-reveal">
+              <img
+                src="/posters/2075.png"
+                alt="Learning Through Thought"
+                className="
+                w-[380px]
+                rounded-[30px]
+                border border-white/10
+                shadow-[0_0_100px_rgba(168,85,247,0.15)]
+                "
+              />
+            </div>
+          </div>
+
+          {/* RIGHT */}
+          <div className="flex flex-col items-start flex-1 pt-8">
+
+            <h2
+              className="
+              y2075-reveal
+              uppercase
+              tracking-[0.35em]
+              text-cyan-400
+              text-sm
+              mb-4
+              "
+            >
+              YEAR 2075
+            </h2>
+
+            <h3
+              className="
+              y2075-reveal
+              text-5xl
+              lg:text-7xl
+              font-black
+              leading-none
+              text-purple-400
+              mb-8
+              "
+            >
+              Learning Through
+              <br />
+              Thought
+            </h3>
+
+            {/* Music Card */}
+            <div
+              className="
+              y2075-reveal
+              mt-2
+              rounded-3xl
+              border
+              border-white/10
+              bg-white/5
+              backdrop-blur-xl
+              p-6
+              max-w-md
+              w-full
+              "
+            >
+              <p className="text-lg font-medium">
+                🎵 Lyria Track: Exploration
+              </p>
+
+              <div className="mt-6 flex items-center justify-between">
+                <button
+                  onClick={toggleAudio}
+                  className="
+                  px-5
+                  py-2
+                  rounded-full
+                  border
+                  border-white/10
+                  hover:border-purple-500
+                  transition-colors
+                  "
+                >
+                  {isPlaying ? "⏸ Pause" : "▶ Play"}
+                </button>
+
+                <span className="text-white/50 text-lg">
+                  Exploration
+                </span>
+              </div>
             </div>
 
-            <div className="stat-card">
-              Predictive Healthcare
+            {/* Quote */}
+            <p
+              className="
+              y2075-reveal
+              mt-10
+              text-2xl
+              lg:text-4xl
+              italic
+              text-cyan-300
+              max-w-xl
+              leading-tight
+              "
+            >
+              "The boundary between knowledge and imagination disappears."
+            </p>
+
+            {/* Description */}
+            <div className="y2075-reveal mt-10 space-y-6 max-w-xl">
+
+              <p className="text-3xl font-semibold text-white">
+                Education evolves beyond classrooms.
+              </p>
+
+              <p className="text-lg lg:text-xl text-white/70 leading-relaxed">
+                Neural interfaces allow humans to access knowledge instantly.
+              </p>
+
+              <p className="text-lg lg:text-xl text-white/70 leading-relaxed">
+                Creativity, memory, and communication expand beyond natural
+                limits.
+              </p>
+
             </div>
+
+            {/* Buttons */}
+            <div className="y2075-reveal mt-10 flex flex-wrap gap-4">
+
+              <button className="px-8 py-4 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">
+                Neural Interfaces
+              </button>
+
+              <button className="px-8 py-4 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">
+                Enhanced Intelligence
+              </button>
+
+              <button className="px-8 py-4 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">
+                Instant Learning
+              </button>
+
+            </div>
+
           </div>
         </div>
       </div>
     </section>
   );
 }
-
-export default Year2075;

@@ -1,236 +1,242 @@
- import { useRef } from "react";
+import { useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { musicInfo } from "../data/musicData";
-import LyriaBadge from "../components/LyriaBadge";
-
 
 gsap.registerPlugin(ScrollTrigger);
- 
- 
 
+export default function Year2100() {
+  const sectionRef = useRef(null);
 
-  function Year2100({
-  setTrack,
-  setCurrentMusic,
-  isPlaying,
-  setIsPlaying,
-}) {
+  useGSAP(() => {
+    gsap.from(".y2100", {
+      opacity: 0,
+      y: 60,
+      duration: 1.2,
+      stagger: 0.15,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 70%",
+      },
+    });
+  }, []);
 
-const sectionRef = useRef(null);
-const posterRef = useRef(null);
-const textRef = useRef(null);
-
-useGSAP(() => {
-  gsap.from(posterRef.current, {
-    x: -200,
-    opacity: 0,
-    duration: 1.5,
-    ease: "power3.out",
-    scrollTrigger: {
-      trigger: posterRef.current,
-      start: "top 80%",
-    },
-  });
-
-  gsap.from(textRef.current, {
-    x: 150,
-    opacity: 0,
-    duration: 1.5,
-    ease: "power3.out",
-    scrollTrigger: {
-      trigger: textRef.current,
-      start: "top 80%",
-    },
-  });
-
-  gsap.to(posterRef.current, {
-    y: -15,
-    duration: 4,
-    repeat: -1,
-    yoyo: true,
-    ease: "sine.inOut",
-  });
-
-  ScrollTrigger.create({
-    trigger: sectionRef.current,
-    start: "top center",
-
-    onEnter: () => {
-      setTrack("/music/destiny.mp3");
-      setCurrentMusic(
-        musicInfo.destiny
-      );
-    },
-
-    onEnterBack: () => {
-      setTrack("/music/destiny.mp3");
-      setCurrentMusic(
-        musicInfo.destiny
-      );
-    },
-  });
-
-}, []);
   return (
     <section
-      id="year2100"
       ref={sectionRef}
-      style={{
-        minHeight: "100vh",
-        position: "relative",
-        overflow: "hidden",
-        color: "white",
-      }}
+      className="
+      relative
+      min-h-screen
+      overflow-hidden
+      bg-black
+      text-white
+      "
     >
-      {/* Space Video */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-        }}
-      >
-        <source src="/videos/space-era.mp4" type="video/mp4" />
-      </video>
+      {/* Background Video */}
+      <div className="absolute inset-0 overflow-hidden">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+        >
+          <source src="/videos/2100.mp4" type="video/mp4" />
+        </video>
 
-      {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/80" />
+      </div>
+
+      {/* Gold Glow */}
       <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "linear-gradient(to bottom, rgba(0,0,0,.7), rgba(0,0,0,.9))",
-        }}
+        className="
+        absolute
+        left-1/2
+        top-1/2
+        -translate-x-1/2
+        -translate-y-1/2
+        w-[1000px]
+        h-[1000px]
+        rounded-full
+        bg-yellow-500/10
+        blur-[250px]
+        "
       />
 
-      {/* Content */}
-      <div
-        style={{
-          position: "relative",
-          zIndex: 10,
-          minHeight: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "80px",
-          flexWrap: "wrap",
-          padding: "100px 40px",
-        }}
-      >
-        {/* Mars Poster */}
-        <img
-          ref={posterRef}
-          src="/posters/mars-colony.webp"
-          alt="Mars Colony"
-          style={{
-            width: "100%",
-            maxWidth: "600px",
-            borderRadius: "24px",
-            boxShadow:
-              "0 30px 100px rgba(255,255,255,.08)",
-          }}
-        />
+      {/* Audio */}
+      <audio controls className="hidden">
+        <source src="/music/destiny.mp3" type="audio/mpeg" />
+      </audio>
 
-        {/* Text */}
-        <div
-          ref={textRef}
-          style={{
-            maxWidth: "600px",
-          }}
-        >
-          <p
-            style={{
-              color: "#8f8f8f",
-              letterSpacing: "4px",
-              textTransform: "uppercase",
-              marginBottom: "20px",
-            }}
-          >
-            Era Four
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-10 lg:px-16 py-24">
+
+        {/* Era Label */}
+        <div className="y2100 text-center mb-16">
+          <p className="uppercase tracking-[0.45em] text-white/40 text-xs">
+            YEAR 2100
           </p>
 
-  <div
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: "20px",
-    flexWrap: "wrap",
-    marginBottom: "20px",
-  }}
->
-  <h1
-    className="year-number"
-    style={{
-      fontSize: "clamp(5rem,10vw,8rem)",
-      margin: 0,
-    }}
-  >
-    2100
-  </h1>
+          <div className="w-px h-28 bg-gradient-to-b from-yellow-400 to-transparent mx-auto mt-6" />
+        </div>
 
-  <LyriaBadge
-    title="Destiny"
-    color="#fbbf24"
-    isPlaying={isPlaying}
-    setIsPlaying={setIsPlaying}
-  />
-</div>
- <h2
-    style={{
-       fontSize: "clamp(2rem,4vw,3.5rem)",
-       marginBottom: "30px",
-         }}>
-       The Interplanetary Era
-</h2>
+        {/* Main Layout */}
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
 
-          <p
-            style={{
-              color: "#b5b5b5",
-              lineHeight: "1.8",
-              marginBottom: "40px",
-            }}
-          >
-            Humanity expands beyond Earth. Intelligent
-            cities thrive on Mars, lunar colonies connect
-            the solar system, and AI coordinates civilization
-            across multiple worlds.
-          </p>
-
-          {/* Cards */}
-          <div
-            style={{
-              display: "flex",
-              gap: "20px",
-              flexWrap: "wrap",
-            }}
-          >
-            <div className="stat-card">
-              <h3>Mars</h3>
-              <p>Self-Sustaining Cities</p>
-            </div>
-
-            <div className="stat-card">
-              <h3>Moon</h3>
-              <p>Research Colonies</p>
-            </div>
-
-            <div className="stat-card">
-              <h3>AI</h3>
-              <p>Planetary Governance</p>
-            </div>
+          {/* Poster */}
+          <div className="y2100 flex justify-center">
+            <img
+              src="/posters/2100.png"
+              alt="Humanity Creates Opportunity"
+              className="
+              w-full
+              max-w-[550px]
+              rounded-[28px]
+              border
+              border-white/10
+              shadow-[0_0_80px_rgba(250,204,21,0.18)]
+              "
+            />
           </div>
+
+          {/* Content */}
+          <div className="y2100 text-left">
+
+            <p className="uppercase tracking-[0.35em] text-yellow-400 text-sm">
+              YEAR 2100
+            </p>
+
+            <h3 className="mt-6 text-5xl lg:text-7xl font-black leading-none text-yellow-400">
+              Humanity Creates
+              <br />
+              Opportunity
+            </h3>
+
+            <div
+  className="
+  mt-10
+  w-full
+  max-w-md
+  rounded-[28px]
+  border
+  border-white/10
+  bg-white/5
+  backdrop-blur-xl
+  px-7
+  py-6
+  "
+>
+  <p className="text-xs uppercase tracking-[0.35em] text-yellow-400">
+    LYRIA SOUNDTRACK
+  </p>
+
+  <h4 className="mt-3 text-3xl font-bold text-white">
+    Destiny
+  </h4>
+
+  <div className="mt-6 flex items-center justify-between">
+    <button
+      onClick={() => {
+        const audio = document.getElementById("destiny-audio");
+
+        if (audio.paused) {
+          audio.play();
+        } else {
+          audio.pause();
+        }
+      }}
+      className="
+      h-14
+      w-14
+      rounded-full
+      border
+      border-yellow-400/30
+      bg-yellow-400/10
+      flex
+      items-center
+      justify-center
+      text-xl
+      hover:bg-yellow-400/20
+      transition-all
+      "
+    >
+      ▶
+    </button>
+
+    <span className="text-white/50 text-lg">
+      Destiny
+    </span>
+  </div>
+
+  <audio id="destiny-audio">
+    <source src="/music/destiny.mp3" type="audio/mpeg" />
+  </audio>
+</div>
+
+            {/* Quote */}
+            <p className="mt-10 text-2xl lg:text-4xl italic text-cyan-300">
+              "We stopped searching for opportunities and started creating them."
+            </p>
+
+            {/* Description */}
+            <div className="mt-10 space-y-6">
+
+              <p className="text-3xl font-semibold text-white">
+                Humanity expands beyond Earth.
+              </p>
+
+              <p className="text-lg lg:text-xl text-white/70 leading-relaxed">
+                People no longer compete for jobs. Instead they create new worlds.
+              </p>
+
+              <p className="text-lg lg:text-xl text-white/70 leading-relaxed">
+                Former students now help build intelligent civilizations across planets.
+              </p>
+
+            </div>
+
+            {/* Feature Buttons */}
+            <div className="mt-12 flex flex-wrap gap-4">
+
+              <button
+                className="
+                px-8 py-4
+                rounded-2xl
+                border border-white/10
+                bg-white/5
+                "
+              >
+                Mars Colonies
+              </button>
+
+              <button
+                className="
+                px-8 py-4
+                rounded-2xl
+                border border-white/10
+                bg-white/5
+                "
+              >
+                Planetary Cities
+              </button>
+
+              <button
+                className="
+                px-8 py-4
+                rounded-2xl
+                border border-white/10
+                bg-white/5
+                "
+              >
+                AI Governance
+              </button>
+
+            </div>
+
+          </div>
+
         </div>
       </div>
     </section>
   );
 }
-
-export default Year2100;

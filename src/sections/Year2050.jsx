@@ -2,314 +2,233 @@ import { useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { musicInfo } from "../data/musicData";
-import LyriaBadge from "../components/LyriaBadge";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function Year2050({
-  setTrack,
-  setCurrentMusic,
-  isPlaying,
-  setIsPlaying,
-}){
+export default function Year2050() {
   const sectionRef = useRef(null);
-  const titleRef = useRef(null);
-  const posterRef = useRef(null);
-  const cardsRef = useRef([]);
-  const handleEnter = () => {
-  gsap.to(posterRef.current, {
-    scale: 1.03,
-    duration: 0.4,
-  });
-};
-
-const handleLeave = () => {
-  gsap.to(posterRef.current, {
-    scale: 1,
-    duration: 0.4,
-  });
-};
 
   useGSAP(() => {
-    gsap.from(titleRef.current, {
-      scale: 0.7,
+    gsap.from(".y2050-reveal", {
       opacity: 0,
-      duration: 1.5,
+      y: 60,
+      duration: 1.2,
+      stagger: 0.15,
       ease: "power3.out",
       scrollTrigger: {
         trigger: sectionRef.current,
-        start: "top 75%",
+        start: "top 70%",
       },
     });
-
-    gsap.from(posterRef.current, {
-      scale: 0.9,
-      opacity: 0,
-      duration: 2,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: posterRef.current,
-        start: "top 85%",
-      },
-    });
-gsap.to(posterRef.current, {
-  y: -15,
-  rotation: 0.5,
-  duration: 4,
-  repeat: -1,
-  yoyo: true,
-  ease: "sine.inOut",
-});
-    
-
-    gsap.from(cardsRef.current, {
-      y: 80,
-      opacity: 0,
-      stagger: 0.2,
-      duration: 1,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: cardsRef.current[0],
-        start: "top 90%",
-      },
-    });
-    ScrollTrigger.create({
-  trigger: sectionRef.current,
-  start: "top center",
-
-onEnter: () => {
-  setTrack("/music/innovation.mp3");
-
-  setCurrentMusic(
-    musicInfo.innovation
-  );
-},
-
-onEnterBack: () => {
-  setTrack("/music/innovation.mp3");
-
-  setCurrentMusic(
-    musicInfo.innovation
-  );
-},
-});
   }, []);
 
   return (
     <section
       ref={sectionRef}
-      style={{
-        minHeight: "100vh",
-        position: "relative",
-        overflow: "hidden",
-        color: "white",
-        padding: "120px 30px",
-      }}
+      className="relative min-h-screen overflow-hidden bg-black text-white"
     >
-      {/* Background Image */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage: "url('/posters/smart-city.webp')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          opacity: 0.25,
-          transform: "scale(1.08)",
-          filter: "blur(5px)",
-        }}
-      />
+      {/* Background Video */}
+      <div className="absolute inset-0 overflow-hidden">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+        >
+          <source src="/videos/2050.mp4" type="video/mp4" />
+        </video>
 
-      {/* Overlay */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "linear-gradient(to bottom, rgba(0,0,0,.45), rgba(0,0,0,.85))",
-        }}
-      />
+        <div className="absolute inset-0 bg-black/80" />
+      </div>
 
       {/* Blue Glow */}
       <div
-        style={{
-          position: "absolute",
-          width: "700px",
-          height: "700px",
-          borderRadius: "50%",
-          background: "rgba(0,140,255,.12)",
-          filter: "blur(140px)",
-          top: "35%",
-          left: "50%",
-          transform: "translateX(-50%)",
-        }}
+        className="
+        absolute
+        left-1/2
+        top-1/2
+        -translate-x-1/2
+        -translate-y-1/2
+        w-[1000px]
+        h-[1000px]
+        rounded-full
+        bg-[#60A5FA]/10
+        blur-[250px]
+        "
       />
 
       {/* Content */}
       <div
-        style={{
-          position: "relative",
-          zIndex: 10,
-          maxWidth: "1400px",
-          margin: "0 auto",
-          textAlign: "center",
-          padding: "70px",
-          borderRadius: "40px",
-          background: "rgba(255,255,255,.03)",
-          backdropFilter: "blur(20px)",
-          border: "1px solid rgba(255,255,255,.06)",
-        }}
+        className="
+        relative
+        z-10
+        min-h-screen
+        flex
+        flex-col
+        px-6
+        pt-20
+        pb-32
+        justify-center
+        "
       >
-        <p
-          style={{
-            color: "#8f8f8f",
-            letterSpacing: "4px",
-            textTransform: "uppercase",
-          }}
-        >
-          Era Two
-        </p>
 
-        <div
-  style={{
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "30px",
-    flexWrap: "wrap",
-    marginBottom: "25px",
-  }}
->
-  <h1
-    ref={titleRef}
-    className="year-number"
-    style={{
-      fontSize: "clamp(7rem,14vw,12rem)",
-      margin: 0,
-    }}
-  >
-    2050
-  </h1>
+        {/* Timeline */}
+        <div className="y2050-reveal text-center mb-16">
+          <p className="uppercase tracking-[0.45em] text-white/40 text-xs">
+            ERA TWO
+          </p>
 
-  <LyriaBadge
-    title="Innovation"
-    color="#6487c2"
-    isPlaying={isPlaying}
-    setIsPlaying={setIsPlaying}
-  />
-</div>
-
-
-
-        <h2
-  style={{
-    fontSize: "clamp(2rem,4vw,3.5rem)",
-    marginBottom: "25px",
-  }}
->
-  Smart Cities Run Themselves
-</h2>
-
-
-
-        <p
-          style={{
-            maxWidth: "850px",
-            margin: "0 auto",
-            color: "#b5b5b5",
-            lineHeight: "1.9",
-            fontSize: "1.1rem",
-          }}
-        >
-          By 2050, artificial intelligence manages traffic,
-          energy, healthcare, and public services.
-          Cities become safer, cleaner, and more efficient,
-          while people enjoy a better quality of life.
-        </p>
-
-        {/* Hero Image */}
-        <img
-  ref={posterRef}
-  onMouseEnter={handleEnter}
-  onMouseLeave={handleLeave}
-
-  src="/posters/smart-city.webp"
-  alt="Smart City"
-  style={{
-    width: "100%",
-    maxWidth: "950px",
-    marginTop: "60px",
-    borderRadius: "30px",
-    boxShadow:
-      "0 50px 140px rgba(255,255,255,.08)",
-    transition: "all .4s ease",
-    cursor: "pointer",
-  }}
-/>
-
-        {/* Stats */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns:
-              "repeat(auto-fit,minmax(250px,1fr))",
-            gap: "25px",
-            marginTop: "50px",
-            maxWidth: "1000px",
-            marginInline: "auto",
-          }}
-        >
-          {[
-            ["98%", "Less Traffic"],
-            ["95%", "Clean Energy"],
-            ["24/7", "Smart Services"],
-          ].map((item, index) => (
-            <div
-              key={index}
-              ref={(el) => (cardsRef.current[index] = el)}
-              style={{
-                padding: "35px",
-                borderRadius: "24px",
-                background: "rgba(255,255,255,.04)",
-                backdropFilter: "blur(20px)",
-                border: "1px solid rgba(255,255,255,.08)",
-              }}
-            >
-              <h3
-                style={{
-                  fontSize: "3rem",
-                  marginBottom: "12px",
-                }}
-              >
-                {item[0]}
-              </h3>
-
-              <p
-                style={{
-                  color: "#b5b5b5",
-                }}
-              >
-                {item[1]}
-              </p>
-            </div>
-          ))}
+          <div className="w-px h-28 bg-gradient-to-b from-[#60A5FA] to-transparent mx-auto mt-6" />
         </div>
 
-        {/* Quote */}
-        <p
-          style={{
-            marginTop: "60px",
-            color: "#9f9f9f",
-            fontSize: "1.3rem",
-            fontStyle: "italic",
-          }}
-        >
-          "Technology fades into the background while life gets better."
-        </p>
+        {/* Main Content Grid */}
+        <div className="grid lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
+
+          {/* LEFT SIDE → CONTENT */}
+          <div className="y2050-reveal order-2 lg:order-1 text-left">
+
+            <p className="uppercase tracking-[0.35em] text-[#60A5FA] text-sm">
+              YEAR 2050
+            </p>
+
+            <h3 className="mt-6 text-5xl lg:text-7xl font-black leading-none text-[#60A5FA]">
+              The End Of Digital
+              <br />
+              Friction
+            </h3>
+    
+
+    {/* Music Card */}
+<div
+  className="
+  mt-10
+  w-full
+  max-w-md
+  rounded-[28px]
+  border
+  border-white/10
+  bg-white/5
+  backdrop-blur-xl
+  px-7
+  py-6
+  "
+>
+  <p className="text-xs uppercase tracking-[0.35em] text-[#60A5FA]">
+    LYRIA SOUNDTRACK
+  </p>
+
+  <h4 className="mt-3 text-3xl font-bold text-white">
+    Innovation
+  </h4>
+
+  <div className="mt-6 flex items-center justify-between">
+    <button
+      onClick={() => {
+        const audio = document.getElementById("innovation-audio");
+
+        if (audio.paused) {
+          audio.play();
+        } else {
+          audio.pause();
+        }
+      }}
+      className="
+      h-14
+      w-14
+      rounded-full
+      border
+      border-[#60A5FA]/30
+      bg-[#60A5FA]/10
+      flex
+      items-center
+      justify-center
+      text-xl
+      hover:bg-[#60A5FA]/20
+      transition-all
+      "
+    >
+      ▶
+    </button>
+
+    <span className="text-white/50 text-lg">
+      Innovation
+    </span>
+  </div>
+
+  <audio id="innovation-audio">
+  <source src="/music/innovation.mp3" type="audio/mpeg" />
+</audio>
+
+</div>
+            {/* Quote */}
+            <p className="mt-10 text-2xl lg:text-4xl italic text-cyan-300">
+              "Knowledge flows as freely as air."
+            </p>
+
+            {/* Description */}
+            <div className="mt-10 space-y-6">
+
+              <p className="text-3xl font-semibold text-white">
+                Connectivity becomes invisible.
+              </p>
+
+              <p className="text-lg lg:text-xl text-white/70 leading-relaxed">
+                AI manages communication, infrastructure, and information flow.
+                The WiFi problem that once frustrated students disappears
+                completely.
+              </p>
+
+              <p className="text-lg lg:text-xl text-white/70 leading-relaxed">
+                Knowledge becomes instantly accessible everywhere.
+              </p>
+
+            </div>
+
+            {/* Feature Buttons */}
+            <div className="mt-12 flex flex-wrap gap-4">
+              <button className="px-8 py-4 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">
+                Smart Infrastructure
+              </button>
+
+              <button className="px-8 py-4 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">
+                Global Connectivity
+              </button>
+
+              <button className="px-8 py-4 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">
+                AI Networks
+              </button>
+            </div>
+
+          </div>
+
+          {/* RIGHT SIDE → POSTER */}
+          <div
+            className="
+            y2050-reveal
+            order-1
+            lg:order-2
+            flex
+            justify-center
+            "
+          >
+            <img
+              src="/posters/2050.png"
+              alt="The End Of Digital Friction"
+              className="
+              w-full
+              max-w-[550px]
+              rounded-[28px]
+              border
+              border-white/10
+              shadow-[0_0_80px_rgba(96,165,250,0.18)]
+              "
+            />
+          </div>
+
+        </div>
+
       </div>
     </section>
   );
 }
-
-export default Year2050;

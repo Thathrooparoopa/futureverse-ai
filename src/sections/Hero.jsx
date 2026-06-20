@@ -1,189 +1,184 @@
 import { useRef } from "react";
+import { motion } from "framer-motion";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import ScrollTrigger from "gsap/ScrollTrigger";
-gsap.registerPlugin(ScrollTrigger);
-function Hero() {
 
-  const titleRef = useRef();
-const videoRef = useRef();
+import LyriaBadge from "../components/LyriaBadge";
 
-  
+export default function Hero() {
+  const heroRef = useRef(null);
+  const titleRef = useRef(null);
+  const subtitleRef = useRef(null);
+  const descRef = useRef(null);
+  const buttonRef = useRef(null);
 
-useGSAP(() => {
+  useGSAP(() => {
+    const tl = gsap.timeline();
 
-  gsap.from(titleRef.current, {
-    y: 120,
-    opacity: 0,
-    duration: 1.5,
-    ease: "power3.out",
-  });
+    tl.from(titleRef.current, {
+      y: 100,
+      opacity: 0,
+      duration: 1.2,
+      ease: "power4.out",
+    })
+      .from(
+        subtitleRef.current,
+        {
+          y: 40,
+          opacity: 0,
+          duration: 1,
+          ease: "power3.out",
+        },
+        "-=0.8"
+      )
+      .from(
+        descRef.current,
+        {
+          y: 30,
+          opacity: 0,
+          duration: 1,
+        },
+        "-=0.7"
+      )
+      .from(
+        buttonRef.current,
+        {
+          y: 20,
+          opacity: 0,
+          duration: 0.8,
+        },
+        "-=0.6"
+      );
+  }, []);
 
-  gsap.to(videoRef.current, {
-    scale: 1.15,
-    y: -30,
-  duration: 5,
-  repeat: -1,
-  yoyo: true,
-  ease: "sine.inOut",
-
-
-    scrollTrigger: {
-      trigger: videoRef.current,
-      start: "top top",
-      end: "bottom top",
-      scrub: true,
-    },
-  });
-
-});
   return (
     <section
-      style={{
-        position: "relative",
-        height: "140vh",
-        overflow: "hidden",
-      }}
+      ref={heroRef}
+      className="relative min-h-screen overflow-hidden bg-black text-white"
     >
-      {/* Video */}
+      {/* Background Video */}
       <video
-      ref={videoRef}
-
         autoPlay
         muted
         loop
         playsInline
-        style={{
-          position: "absolute",
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          opacity: 0.25,
-        }}
+        className="absolute inset-0 h-full w-full object-cover"
       >
         <source src="/videos/hero.mp4" type="video/mp4" />
       </video>
 
       {/* Overlay */}
-      <div
-  style={{
-    position: "absolute",
-    inset: 0,
-    background:
-      "linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.75))",
-  }}
-/>
+      <div className="absolute inset-0 bg-black/70" />
 
-<div
-  className="hero-glow"
-  style={{
-    position: "absolute",
-    width: "700px",
-    height: "700px",
-    borderRadius: "50%",
-    background: "rgba(80,120,255,.18)",
-    filter: "blur(120px)",
-    top: "45%",
-    left: "50%",
-    transform: "translate(-50%,-50%)",
-  }}
-/>
-{/* Content */}
-<div
-  style={{
-    position: "relative",
-    zIndex: 10,
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "center",
-    color: "white",
-    padding: "20px",
-  }}
->
-  {/* Year Label */}
-  <p
-    style={{
-      letterSpacing: "8px",
-      textTransform: "uppercase",
-      color: "#9ca3af",
-      fontSize: ".9rem",
-      marginBottom: "20px",
-    }}
-  >
-    YEAR 2026
-  </p>
+      {/* Glow */}
+      <div className="absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-500/20 blur-[150px]" />
 
-  {/* Main Title */}
-  <h1
-    ref={titleRef}
-    className="hero-title"
-    style={{
-      fontSize: "clamp(5rem,10vw,9rem)",
-      lineHeight: ".9",
-      fontWeight: "700",
-      maxWidth: "1400px",
-      textShadow: "0 0 40px rgba(255,255,255,.15)",
-    }}
-  >
-    FUTUREVERSE AI
-  </h1>
+      {/* Content */}
+      <div className="relative z-20 flex min-h-screen items-center justify-center">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 text-center">
 
-  {/* Subtitle */}
-  <p
-    style={{
-      marginTop: "35px",
-      fontSize: "1.35rem",
-      color: "#d1d5db",
-      maxWidth: "720px",
-      lineHeight: "1.8",
-    }}
-  >
-    An Interactive AI Documentary About Humanity's
-    Next Century
-  </p>
-<button
-  className="hero-btn"
-  onClick={() => {
-    document
-      .getElementById("year2035")
-      ?.scrollIntoView({
-        behavior: "smooth",
-      });
-  }}
->
-  Begin The Journey →
-</button>
-  
+          {/* Competition Badge */}
+          <p
+            className="mb-6 text-[10px] sm:text-xs md:text-sm tracking-[0.35em] uppercase text-white/50"
+          >
+            Gemini Webverse Challenge 2026
+          </p>
 
-  {/* Scroll */}
-  <div
-    style={{
-      marginTop: "70px",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: "10px",
-    }}
-  >
-    <span
-      style={{
-        fontSize: ".8rem",
-        letterSpacing: "4px",
-        color: "#8f8f8f",
-      }}
-    >
-      SCROLL TO EXPLORE
-    </span>
+          {/* Headline */}
+          <h1
+            ref={titleRef}
+            className="
+              text-5xl
+              sm:text-6xl
+              md:text-7xl
+              lg:text-8xl
+              font-bold
+              tracking-tight
+              leading-none
+            "
+          >
+            FUTUREVERSE
+            <br />
+            AI
+          </h1>
 
-    <div className="scroll-line" />
-  </div>
-</div>
-      
+          {/* Subtitle */}
+          <p
+            ref={subtitleRef}
+            className="
+              mt-6
+              text-xl
+              sm:text-2xl
+              lg:text-3xl
+              text-gray-300
+            "
+          >
+            From Campus Chaos
+            <br />
+            To Humanity's Future
+          </p>
+
+          {/* Description */}
+          <p
+            ref={descRef}
+            className="
+              mt-8
+              max-w-4xl
+              mx-auto
+              text-base
+              sm:text-lg
+              lg:text-xl
+              leading-relaxed
+              text-gray-300
+            "
+          >
+            An Interactive AI Documentary About How Student Problems
+            Inspired The Next Century Of Innovation.
+          </p>
+
+          {/* CTA */}
+          <div ref={buttonRef}>
+            <button
+              className="
+                mt-10
+                px-8
+                py-4
+                rounded-full
+                border
+                border-cyan-400/30
+                bg-white/5
+                backdrop-blur-md
+                text-white
+                font-semibold
+                tracking-wider
+                transition-all
+                duration-300
+                hover:bg-cyan-500/20
+                hover:border-cyan-400
+              "
+            >
+              Begin The Journey →
+            </button>
+          </div>
+
+          {/* Scroll Indicator */}
+          <div className="mt-16 flex flex-col items-center gap-3">
+            <p className="text-xs tracking-[0.4em] uppercase text-white/40">
+              Scroll To Begin
+            </p>
+
+            <motion.div
+              animate={{ y: [0, 12, 0] }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+              }}
+              className="h-10 w-[1px] bg-white/40"
+            />
+          </div>
+
+        </div>
+      </div>
     </section>
   );
 }
-
-export default Hero;
